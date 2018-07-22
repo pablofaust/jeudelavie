@@ -27,5 +27,6 @@ typedef struct		s_coords
 }			t_coords;
 
 int			parse_screen(char **av, t_env *env);
+int		parse_coords(char **av, t_env *env, t_coords **coords);
 
 #endif

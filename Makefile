@@ -15,7 +15,7 @@ GOL		=	gol
 CC			=	gcc
 CFLAGS		=   -Wall -Wextra -Werror -g3
 
-_SRCS		=	main.c parse_screen.c
+_SRCS		=	main.c parse_screen.c parse_coords.c
 _LIBFT		=	libft.a
 _MLX		= 	libmlx.a
 

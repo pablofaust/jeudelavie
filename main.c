@@ -10,154 +10,46 @@ static int	check_arguments(int ac)
 	return (1);
 }
 
-int		len_x(char *av)
+void		read_coords(t_coords *coords)
 {
-	int	len;
-	int	i;
+	while (coords)
+	{
+		printf("%d, %d\n", coords->x, coords->y);
+		coords = coords->next;
+	}
+}
+
+void		draw_cell(int x, int y, t_env *env)
+{
+	int	position;
+	int 	i;
+	int	k;
 
 	i = 0;
-	len = 0;
-	while (av[i] && av[i] != ',')
+	position = y * 10 * env->screen_width + x * 10;
+	printf("position = %d\n", position);
+	while (i <= 10)
 	{
-		if (!(ft_isdigit(av[i])))
+		k = 0;
+		while (k <= 10)
 		{
-			ft_putstr("Veuillez renseigner les coordonnees sous la forme \"x,y\".");
-			return (0);
+			env->data_addr[position + i *env->screen_width + k] = 0xffffff;
+			k++;
 		}
+		env->data_addr[position + i * env->screen_width] = 0xffffff;
+		printf("position2 = %d\n", position + i * env->screen_width);
 		i++;
-		len++;
 	}
-	return (len);
 }
 
-int		len_y(char *av)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	i = 0;
-	while (av[i] && av[i] != ',')
-		i++;
-	i++;
-	j = 0;
-	len = 0;
-	while (av[i])
+int		draw_initial_situation(t_coords **coords, t_env *env)
+{	
+	while (*coords)
 	{
-		if (!(ft_isdigit(av[i])))
-		{
-			ft_putstr("Veuillez renseigner les coordonnees sous la forme \"x,y\".");
-			return (0);
-		}
-		i++;
-		j++;
-		len++;
+		draw_cell((*coords)->x, (*coords)->y, env);
+		(*coords) = (*coords)->next;
 	}
-	return (len);
-}
-
-int		parse_x(char *av)
-{
-	int	i;
-	int	len;
-	char	*x;
-
-	i = 0;
-	len = 0;
-	if (!(len = len_x(av)))
-		return (0);
-	if (!(x = malloc(sizeof(char) * len)))
-		return (0);
-	while (i <= len)
-	{
-		x[i] = av[i];
-		i++;
-	}
-	return (ft_atoi(x));
-}
-
-int		parse_y(char *av)
-{
-	int	i;
-	int	j;
-	int	len;
-	char	*y;
-
-	i = 0;
-	len = 0;
-	if (!(len = len_y(av)))
-		return (0);
-	if (!(y = malloc(sizeof(char) * len)))
-		return (0);
-	while (av[i] && av[i] != ',')
-		i++;
-	i++;
-	j = 0;
-	while (j <= len)
-	{
-		y[j] = av[i];
-		i++;
-		j++;
-	}
-	return (ft_atoi(y));
-}
-
-void	lstaddafter(t_coords **alst, t_coords **new)
-{
-	t_coords	*tmp;
-
-	if (!alst)
-		(*alst) = (*new);
-	else
-	{
-		tmp = (*alst)->next;
-		if (new)
-		{
-			(*alst)->next = *new;
-			(*new)->next = tmp;
-		}
-		else
-			(*alst)->next = NULL;
-	}
-}
-
-t_coords	*create_new(char *av)
-{
-	t_coords	*new;
-
-	if (!(new = (t_coords*)malloc(sizeof(t_coords))))
-		return (0);
-	if (!(new->x = parse_x(av)))
-		return (0);
-	if (!(new->y = parse_y(av)))
-		return (0);
-	new->next = NULL;
-	return (new);
-}
-int		parse_coords(char **av, t_env *env, t_coords **coords)
-{
-	t_coords	*new;
-	int		i;
-
-	new = *coords;
-	i = 3;
-	while (av[i])
-	{
-		if (*coords == 0)
-		{
-			new = create_new(av[i]);
-			*coords = new;
-		}
-		else
-		{
-			while (new->next)
-				new = new->next;
-			new->next = create_new(av[i]);
-		}
-		i++;
-	}
-	if (env)
-		return (1);
+	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 	return (1);
 }
 
@@ -173,5 +65,9 @@ int		main(int ac, char **av)
 	coords1 = NULL;
 	if (!(parse_coords(av, &env, &coords1)))
 		return (0);
+//	read_coords(coords1);
+	if (!(draw_initial_situation(&coords1, &env)))
+		return (0);
+	mlx_loop(env.mlx);
 	return (0);
 }
