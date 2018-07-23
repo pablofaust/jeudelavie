@@ -14,7 +14,7 @@ void		read_coords(t_coords *coords)
 {
 	while (coords)
 	{
-		printf("%d, %d\n", coords->x, coords->y);
+		printf("%d, %d\n", coords->number, coords->alive);
 		coords = coords->next;
 	}
 }
@@ -42,7 +42,7 @@ void		draw_cell(int x, int y, t_env *env)
 	}
 }
 
-int		draw_initial_situation(t_coords **coords, t_env *env)
+/*int		draw_initial_situation(t_coords **coords, t_env *env)
 {	
 	while (*coords)
 	{
@@ -51,7 +51,7 @@ int		draw_initial_situation(t_coords **coords, t_env *env)
 	}
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 	return (1);
-}
+}*/
 
 int		main(int ac, char **av)
 {
@@ -66,8 +66,8 @@ int		main(int ac, char **av)
 	if (!(parse_coords(av, &env, &coords1)))
 		return (0);
 //	read_coords(coords1);
-	if (!(draw_initial_situation(&coords1, &env)))
-		return (0);
-	mlx_loop(env.mlx);
+//	if (!(draw_initial_situation(&coords1, &env)))
+//		return (0);
+//	mlx_loop(env.mlx);
 	return (0);
 }

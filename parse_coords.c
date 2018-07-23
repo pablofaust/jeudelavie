@@ -9,11 +9,6 @@ int		len_x(char *av)
 	len = 0;
 	while (av[i] && av[i] != ',')
 	{
-		if (!(ft_isdigit(av[i])))
-		{
-			ft_putstr("Veuillez renseigner les coordonnees sous la forme \"x,y\".");
-			return (0);
-		}
 		i++;
 		len++;
 	}	
@@ -102,67 +97,74 @@ int		parse_y(char *av)
 	return (ft_atoi(y));
 }
 
-void	lstaddafter(t_coords **alst, t_coords **new)
-{
-	t_coords	*tmp;
-
-	if (!alst)
-		(*alst) = (*new);
-	else
-	{
-		tmp = (*alst)->next;
-		if (new)
-		{
-			(*alst)->next = *new;
-			(*new)->next = tmp;
-		}
-		else
-			(*alst)->next = NULL;
-	}
-}
-
-t_coords	*create_new(char *av, t_env *env)
+t_coords	*create_empty_cell(int i)
 {
 	t_coords	*new;
 
 	if (!(new = (t_coords*)malloc(sizeof(t_coords))))
 		return (0);
-	if (!(new->x = parse_x(av)))
-		return (0);
-	if (!(new->y = parse_y(av)))
-		return (0);
-	if (new->x > env->cols || new->y > env->rows)
-	{
-		ft_putstr("Certaines coordonnees renseignees ne conviennent pas a la taille de tableau selectionnee.\n");
-		return (0);
-	}
+	new->number = i;
+	new->alive = 0;
 	new->next = NULL;
 	return (new);
 }
 
-int		parse_coords(char **av, t_env *env, t_coords **coords)
+int		create_cells(t_coords **coords, t_env *env)
 {
-	t_coords	*new;
+	int		cells;
 	int		i;
+	t_coords	*new;
 
+	cells = env->cols * env->rows;
+	i = 0;
 	new = *coords;
-	i = 3;
-	while (av[i])
-	{
+	while (i < cells)
+	{	
 		if (*coords == 0)
 		{
-			new = create_new(av[i], env);
+			new = create_empty_cell(i);
 			*coords = new;
 		}
 		else
 		{
 			while (new->next)
 				new = new->next;
-			new->next = create_new(av[i], env);
+			new->next = create_empty_cell(i);
 		}
 		i++;
 	}
-	if (env)
-		return (1);
+	return (1);
+}
+
+int		get_coords(char *av, int *position, int width)
+{
+	int	x;
+	int	y;
+
+	if (!(x = parse_x(av)))
+		return (0);
+	if (!(y = parse_y(av)))
+		return (0);
+	*position = (y - 1) * width + (x - 1);
+	printf("x = %d, y = %d, position = (%d - 1) * %d + (%d - 1)", x, y, y, width, x);
+	return (1);
+}
+
+int		parse_coords(char **av, t_env *env, t_coords **coords)
+{
+	int		i;
+	int		*position;
+
+	i = 3;
+	position = &i;
+	if (!(create_cells(coords, env)))
+		return (0);
+	while (av[i])
+	{
+		if (!(get_coords(av[i], position, env->cols)))
+			return (0);
+		printf("position = %d\n", *position);
+		i++;
+	}
 	return (1);
 }

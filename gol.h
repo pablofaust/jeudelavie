@@ -21,8 +21,8 @@ typedef struct		s_env
 
 typedef struct		s_coords
 {
-	int		x;
-	int		y;
+	int		number;
+	int		alive;
 	struct s_coords	*next;
 }			t_coords;
 
