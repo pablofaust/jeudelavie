@@ -146,24 +146,50 @@ int		get_coords(char *av, int *position, int width)
 	if (!(y = parse_y(av)))
 		return (0);
 	*position = (y - 1) * width + (x - 1);
-	printf("x = %d, y = %d, position = (%d - 1) * %d + (%d - 1)", x, y, y, width, x);
+	return (1);
+}
+
+
+int		wake_cell(t_coords **coords, int *position)
+{
+ /*	t_coords	***begin;
+
+	begin = &coords;
+	while ((**begin)->number != *position)
+		(**begin) = (**begin)->next;
+	(**begin)->alive = 1;
+	return (1);
+*/
+	t_coords *begin;
+
+	begin = *coords;
+	while (begin)
+	{
+		if ((begin)->number == *position)
+			(begin)->alive = 1;
+		(begin) = (begin)->next;
+	}
 	return (1);
 }
 
 int		parse_coords(char **av, t_env *env, t_coords **coords)
 {
+	int		a;
 	int		i;
 	int		*position;
 
 	i = 3;
-	position = &i;
+	a = 0;
+	position = &a;
 	if (!(create_cells(coords, env)))
 		return (0);
 	while (av[i])
 	{
 		if (!(get_coords(av[i], position, env->cols)))
 			return (0);
-		printf("position = %d\n", *position);
+		printf("%d\n", *position);
+		if (!(wake_cell(coords, position)))
+			return (0);
 		i++;
 	}
 	return (1);

@@ -65,7 +65,7 @@ int		main(int ac, char **av)
 	coords1 = NULL;
 	if (!(parse_coords(av, &env, &coords1)))
 		return (0);
-//	read_coords(coords1);
+	read_coords(coords1);
 //	if (!(draw_initial_situation(&coords1, &env)))
 //		return (0);
 //	mlx_loop(env.mlx);
