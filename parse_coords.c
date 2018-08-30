@@ -152,14 +152,6 @@ int		get_coords(char *av, int *position, int width)
 
 int		wake_cell(t_coords **coords, int *position)
 {
- /*	t_coords	***begin;
-
-	begin = &coords;
-	while ((**begin)->number != *position)
-		(**begin) = (**begin)->next;
-	(**begin)->alive = 1;
-	return (1);
-*/
 	t_coords *begin;
 
 	begin = *coords;
@@ -187,7 +179,6 @@ int		parse_coords(char **av, t_env *env, t_coords **coords)
 	{
 		if (!(get_coords(av[i], position, env->cols)))
 			return (0);
-		printf("%d\n", *position);
 		if (!(wake_cell(coords, position)))
 			return (0);
 		i++;
