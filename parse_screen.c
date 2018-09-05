@@ -38,16 +38,14 @@ int	parse_screen(char **av, t_env *env)
 		ft_putstr("Pour pouvoir jouer au Jeu de la vie, un tableau d'au moins 3x3 est necessaire.\n");
 		return (0);
 	}
-	env->screen_width = env->cols * 10;
-	env->screen_height = env->rows * 10;
-//	env->mlx = mlx_init();
-//	if (!(env->win = mlx_new_window(env->mlx, env->screen_width, env->screen_height, "Jeu de la vie")))
-//		return (0);
-//	if (!(env->img = mlx_new_image(env->mlx, env->screen_width, env->screen_height)))
-//		return (0);
-//	if (!(env->data_addr = (unsigned int*)mlx_get_data_addr(env->img, &env->bits_per_pixel, &env->bytes_per_line, &env->endian)))
-//		return (0);
+	env->screen_width = env->cols * CELL_WIDTH;
+	env->screen_height = env->rows * CELL_WIDTH;
+	env->mlx = mlx_init();
+	if (!(env->win = mlx_new_window(env->mlx, env->screen_width, env->screen_height, "Jeu de la vie")))
+		return (0);
+	if (!(env->img = mlx_new_image(env->mlx, env->screen_width, env->screen_height)))
+		return (0);
+	if (!(env->data_addr = (unsigned int*)mlx_get_data_addr(env->img, &env->bits_per_pixel, &env->bytes_per_line, &env->endian)))
+		return (0);
 	return (1);
 }
-
-

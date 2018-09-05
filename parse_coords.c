@@ -136,15 +136,26 @@ int		create_cells(t_coords **coords, t_env *env)
 	return (1);
 }
 
-int		get_coords(char *av, int *position, int width)
+int		get_coords(char *av, int *position, int width, int height)
 {
 	int	x;
 	int	y;
 
 	if (!(x = parse_x(av)))
+	{
+		ft_putstr("Une coordonnee ne peut pas avoir 0 comme valeur sur l'axe x");
 		return (0);
+	}
 	if (!(y = parse_y(av)))
+	{
+		ft_putstr("Une coordonnee ne peut pas avoir 0 comme valeur sur l'axe y");
 		return (0);
+	}
+	if (x > width || y > height)
+	{
+		ft_putstr("Veillez a en pas entrer de coordonnees qui sortent du tableau.\n");
+		return (0);
+	}
 	*position = (y - 1) * width + (x - 1);
 	return (1);
 }
@@ -177,7 +188,7 @@ int		parse_coords(char **av, t_env *env, t_coords **coords)
 		return (0);
 	while (av[i])
 	{
-		if (!(get_coords(av[i], position, env->cols)))
+		if (!(get_coords(av[i], position, env->cols, env->rows)))
 			return (0);
 		if (!(wake_cell(coords, position)))
 			return (0);

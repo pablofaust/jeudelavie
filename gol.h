@@ -3,30 +3,32 @@
 # include "libft/includes/libft.h"
 # include "minilibx_macos/mlx.h"
 # include "mlx_keys_macos.h"
+# define CELL_WIDTH 100
 
 typedef struct		s_env
 {
-	int		cols;
-	int		rows;
-	int		screen_width;
-	int		screen_height;
-	void		*mlx;
-	void		*win;
-	void		*img;
+	int				cols;
+	int				rows;
+	int				screen_width;
+	int				screen_height;
+	void			*mlx;
+	void			*win;
+	void			*img;
 	unsigned int	*data_addr;
-	int		bits_per_pixel;
-	int		bytes_per_line;
-	int		endian;
-}			t_env;
+	int				bits_per_pixel;
+	int				bytes_per_line;
+	int				endian;
+	struct s_coords *coords1;
+}					t_env;
 
 typedef struct		s_coords
 {
-	int		number;
-	int		alive;
+	int				number;
+	int				alive;
 	struct s_coords	*next;
-}			t_coords;
+}					t_coords;
 
-int			parse_screen(char **av, t_env *env);
-int		parse_coords(char **av, t_env *env, t_coords **coords);
-
+int					parse_screen(char **av, t_env *env);
+int					parse_coords(char **av, t_env *env, t_coords **coords);
+void				events_listener(t_env *env);
 #endif
