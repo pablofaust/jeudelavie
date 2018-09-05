@@ -4,6 +4,7 @@
 # include "minilibx_macos/mlx.h"
 # include "mlx_keys_macos.h"
 # define CELL_WIDTH 100
+# define TURNS 2
 
 typedef struct		s_env
 {
@@ -19,6 +20,7 @@ typedef struct		s_env
 	int				bytes_per_line;
 	int				endian;
 	struct s_coords *coords1;
+	struct s_coords *coords2;
 }					t_env;
 
 typedef struct		s_coords
@@ -31,4 +33,8 @@ typedef struct		s_coords
 int					parse_screen(char **av, t_env *env);
 int					parse_coords(char **av, t_env *env, t_coords **coords);
 void				events_listener(t_env *env);
+int					draw_initial_situation(t_coords **coords, t_env *env);
+void				draw_cell(int number, t_env *env);
+int					create_cells(t_coords **coords, t_env *env);
+int					go_live(t_coords **coords1, t_env *env);
 #endif
