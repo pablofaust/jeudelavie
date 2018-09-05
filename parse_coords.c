@@ -119,7 +119,7 @@ int		create_cells(t_coords **coords, t_env *env)
 	i = 0;
 	new = *coords;
 	while (i < cells)
-	{	
+	{
 		if (*coords == 0)
 		{
 			new = create_empty_cell(i);

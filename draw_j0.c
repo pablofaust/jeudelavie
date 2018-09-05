@@ -8,7 +8,6 @@ void		draw_cell(int number, t_env *env)
 	int		i;
 	int		j;
 
-	printf("number = %d\n", number);
 	if (number == 0)
 		position = 0 *env->screen_width * CELL_WIDTH + 0 * CELL_WIDTH;
 	else

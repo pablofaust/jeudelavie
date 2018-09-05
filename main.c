@@ -10,12 +10,12 @@ static int	check_arguments(int ac)
 	return (1);
 }
 
-void		read_coords(t_coords *coords)
+void		read_coords(t_coords **coords)
 {
-	while (coords)
+	while (*coords)
 	{
-		printf("%d, %d\n", coords->number, coords->alive);
-		coords = coords->next;
+		printf("%d, %d\n", (*coords)->number, (*coords)->alive);
+		*coords = (*coords)->next;
 	}
 }
 
@@ -23,6 +23,7 @@ int		main(int ac, char **av)
 {
 	t_env		env;
 	t_coords	*coords1;
+	t_coords	*coords2;
 
 	if (!(check_arguments(ac)))
 		return (0);
@@ -31,10 +32,10 @@ int		main(int ac, char **av)
 	coords1 = NULL;
 	if (!(parse_coords(av, &env, &coords1)))
 		return (0);
-	read_coords(coords1);
 	if (!(draw_initial_situation(&coords1, &env)))
 		return (0);
-	if (!(go_live(&coords1, &env)))
+	coords2 = NULL;
+	if (!(go_live(&coords1, &coords2, &env)))
 		return (0);
 	env.coords1 = coords1;
 	events_listener(&env);
