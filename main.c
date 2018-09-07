@@ -10,34 +10,35 @@ static int	check_arguments(int ac)
 	return (1);
 }
 
-void		read_coords(t_coords **coords)
+void		read_matrix(int **matrix, t_env *env)
 {
-	while (*coords)
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < env->rows)
 	{
-		printf("%d, %d\n", (*coords)->number, (*coords)->alive);
-		*coords = (*coords)->next;
+		j = 0;
+		while (j < env->cols)
+		{
+			printf("%d : %d\n", i * env->cols + j, matrix[i][j]);
+			j++;
+		}
+		i++;
 	}
 }
 
 int		main(int ac, char **av)
 {
 	t_env		env;
-	t_coords	*coords1;
-	t_coords	*coords2;
 
 	if (!(check_arguments(ac)))
 		return (0);
 	if (!(parse_screen(av, &env)))
 		return (0);
-	coords1 = NULL;
-	if (!(parse_coords(av, &env, &coords1)))
+	if (!(parse_coords(av, &env)))
 		return (0);
-	if (!(draw_initial_situation(&coords1, &env)))
-		return (0);
-	coords2 = NULL;
-	if (!(go_live(&coords1, &coords2, &env)))
-		return (0);
-	env.coords1 = coords1;
+	life(&env);
 	events_listener(&env);
 	mlx_loop(env.mlx);
 	return (0);

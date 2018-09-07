@@ -97,46 +97,30 @@ int		parse_y(char *av)
 	return (ft_atoi(y));
 }
 
-t_coords	*create_empty_cell(int i)
+int		create_matrix(t_env *env, int ***matrix)
 {
-	t_coords	*new;
-
-	if (!(new = (t_coords*)malloc(sizeof(t_coords))))
-		return (0);
-	new->number = i;
-	new->alive = 0;
-	new->next = NULL;
-	return (new);
-}
-
-int		create_cells(t_coords **coords, t_env *env)
-{
-	int		cells;
 	int		i;
-	t_coords	*new;
+	int		j;
 
-	cells = env->cols * env->rows;
 	i = 0;
-	new = *coords;
-	while (i < cells)
+ 	if (!(*matrix = ft_memalloc(sizeof(int**) * env->rows * env->cols)))
+		return (0);
+	while (i < env->rows)
 	{
-		if (*coords == 0)
+		if (!((*matrix)[i] = ft_memalloc(sizeof(int*) * env->cols)))
+			return (0);
+		j = 0;
+		while (j < env->cols)
 		{
-			new = create_empty_cell(i);
-			*coords = new;
-		}
-		else
-		{
-			while (new->next)
-				new = new->next;
-			new->next = create_empty_cell(i);
+			(*matrix)[i][j] = 0;
+			j++;
 		}
 		i++;
 	}
 	return (1);
 }
 
-int		get_coords(char *av, int *position, int width, int height)
+int		get_coords(char *av, int *ptr1, int *ptr2, t_env *env)
 {
 	int	x;
 	int	y;
@@ -151,48 +135,46 @@ int		get_coords(char *av, int *position, int width, int height)
 		ft_putstr("Une coordonnee ne peut pas avoir 0 comme valeur sur l'axe y");
 		return (0);
 	}
-	if (x > width || y > height)
+	if (x > env->cols || y > env->rows)
 	{
 		ft_putstr("Veillez a en pas entrer de coordonnees qui sortent du tableau.\n");
 		return (0);
 	}
-	*position = (y - 1) * width + (x - 1);
+	*ptr1 = x - 1;
+	*ptr2 = y - 1;
 	return (1);
 }
 
 
-int		wake_cell(t_coords **coords, int *position)
+void	wake_cell(int **matrix, int x, int y)
 {
-	t_coords *begin;
-
-	begin = *coords;
-	while (begin)
-	{
-		if ((begin)->number == *position)
-			(begin)->alive = 1;
-		(begin) = (begin)->next;
-	}
-	return (1);
+	matrix[y][x] = 1;		
 }
 
-int		parse_coords(char **av, t_env *env, t_coords **coords)
+int		parse_coords(char **av, t_env *env)
 {
 	int		a;
+	int		b;
 	int		i;
-	int		*position;
+	int		*x;
+	int		*y;
+	int		**matrix;
 
+	matrix = NULL;
 	i = 3;
 	a = 0;
-	position = &a;
-	if (!(create_cells(coords, env)))
+	b = 0;
+	x = &a;
+	y = &b;
+	if (!(create_matrix(env, &matrix)))
 		return (0);
 	while (av[i])
 	{
-		if (!(get_coords(av[i], position, env->cols, env->rows)))
+		if (!(get_coords(av[i], x, y, env)))
 			return (0);
-		if (!(wake_cell(coords, position)))
-			return (0);
+		wake_cell(matrix, *x, *y);
 		i++;
 	}
+	env->matrix1 = matrix;
 	return (1);
 }

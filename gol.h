@@ -19,23 +19,19 @@ typedef struct		s_env
 	int				bits_per_pixel;
 	int				bytes_per_line;
 	int				endian;
-	struct s_coords *coords1;
-	struct s_coords *coords2;
+	int				**matrix1;
+	int				**matrix2;
 }					t_env;
 
-typedef struct		s_coords
-{
-	int				number;
-	int				alive;
-	struct s_coords	*next;
-}					t_coords;
-
 int					parse_screen(char **av, t_env *env);
-int					parse_coords(char **av, t_env *env, t_coords **coords);
-void				read_coords(t_coords **coords);
+int					parse_coords(char **av, t_env *env);
+int					create_matrix(t_env *env, int ***matrix);
+void				read_matrix(int **matrix, t_env *env);
+
+int					life(t_env *env);
 void				events_listener(t_env *env);
-int					draw_initial_situation(t_coords **coords, t_env *env);
-void				draw_cell(int number, t_env *env);
-int					create_cells(t_coords **coords, t_env *env);
-int					go_live(t_coords **coords1, t_coords **coords2, t_env *env);
+void				draw_matrix(int **matrix, t_env *env);
+//void				draw_cell(int number, t_env *env);
+//int					create_cells(t_env *env);
+//int					go_live(t_env *env);
 #endif
