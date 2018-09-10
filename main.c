@@ -21,9 +21,10 @@ void		read_matrix(int **matrix, t_env *env)
 		j = 0;
 		while (j < env->cols)
 		{
-			printf("%d : %d\n", i * env->cols + j, matrix[i][j]);
+			printf("%d ", matrix[i][j]);
 			j++;
 		}
+		printf("\n");
 		i++;
 	}
 }

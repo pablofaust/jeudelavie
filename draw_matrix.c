@@ -40,4 +40,5 @@ void	draw_matrix(int **matrix, t_env *env)
 		}
 		y++;
 	}
+	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 }

@@ -6,7 +6,7 @@
 #    By: pfaust   <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/09 14:19:53 by pfaust            #+#    #+#              #
-#    Updated: 2018/09/07 13:42:24 by pfaust           ###   ########.fr        #
+#    Updated: 2018/09/10 10:35:37 by pfaust           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ GOL		=	gol
 CC			=	gcc
 CFLAGS		=   -Wall -Wextra -Werror -g3
 
-_SRCS		=	main.c parse_screen.c parse_coords.c life.c draw_matrix.c events_listener.c
+_SRCS		=	main.c parse_screen.c parse_coords.c life.c draw_matrix.c events_listener.c \
+				rules.c
 _LIBFT		=	libft.a
 _MLX		= 	libmlx.a
 

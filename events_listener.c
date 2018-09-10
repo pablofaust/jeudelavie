@@ -8,7 +8,6 @@ void		free_matrix(int **matrix, t_env *env)
 
 	y = 0;
 	allocated = 0;
-	read_matrix(matrix, env);
 	while (y < env->rows)
 	{
 		i = 0;
