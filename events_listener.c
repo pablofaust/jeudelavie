@@ -3,14 +3,23 @@
 void		free_matrix(int **matrix, t_env *env)
 {
 	int		y;
+	int		i;
+	int		allocated;
 
 	y = 0;
+	allocated = 0;
 	read_matrix(matrix, env);
 	while (y < env->rows)
 	{
-		printf("Jusqu'ici tout va bien\n");	
-		if (matrix[y])
-			free(&matrix[y]);
+		i = 0;
+		while (i < env->cols)
+		{
+			if (matrix[y][i])
+				allocated = 1;
+			i++;
+		}
+		if (allocated)
+			free(matrix[y]);
 		y++;
 	}
 }
