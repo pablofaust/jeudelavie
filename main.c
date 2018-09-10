@@ -27,6 +27,7 @@ void		read_matrix(int **matrix, t_env *env)
 		printf("\n");
 		i++;
 	}
+	printf("\n");
 }
 
 int		main(int ac, char **av)

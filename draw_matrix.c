@@ -28,6 +28,7 @@ void	draw_matrix(int **matrix, t_env *env)
 	int		y;
 	int		x;
 
+	read_matrix(matrix, env);
 	y = 0;
 	while (y < env->rows)
 	{

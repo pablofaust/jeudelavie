@@ -5,8 +5,9 @@
 # include "mlx_keys_macos.h"
 # include <stdio.h>
 # include <stdlib.h>
+# include <time.h>
 # define CELL_WIDTH 100
-# define TURNS 3
+# define TURNS 10
 
 typedef struct		s_env
 {
